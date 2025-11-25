@@ -9,7 +9,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://vybe-gzu3.onrender.com/",
+    origin: "https://vybe-gzu3.onrender.com",
     methods: ["GET", "POST"],
   },
 });
