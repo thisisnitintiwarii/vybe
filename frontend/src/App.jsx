@@ -24,7 +24,7 @@ import { setOnlineUseers, setsocketData } from "./redux/socketSlice.js";
 import getFollowingList from "./hooks/getFollowingList.jsx";
 import getPrevChatUsers from "./hooks/getPrevChatUsers.js";
 import Search from "./pages/Search.jsx";
-export const serverUrl = "http://localhost:8000";
+export const serverUrl = "https://vybebackend-dnik.onrender.com";
 
 const App = () => {
   // for accesssing the data from the user
