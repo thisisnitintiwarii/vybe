@@ -1,5 +1,4 @@
 import { IoMdSend } from "react-icons/io";
-
 import React, { useState } from "react";
 import DP from "../assets/DP.png";
 import { GoHeartFill } from "react-icons/go";
@@ -21,11 +20,9 @@ const Post = ({ post }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.user);
-
   const { postData } = useSelector((state) => state.post);
 
   const [showComment, setShowComment] = useState(false);
-
   const [message, setMessage] = useState("");
 
   const handleLike = async () => {
@@ -37,7 +34,7 @@ const Post = ({ post }) => {
       const updatedPost = result.data;
 
       const updatedPosts = postData.map((p) =>
-        p._id == post._id ? updatedPost : p
+        p._id === post._id ? updatedPost : p
       );
 
       dispatch(setPostData(updatedPosts));
@@ -59,10 +56,11 @@ const Post = ({ post }) => {
       const updatedPost = result.data;
 
       const updatedPosts = postData.map((p) =>
-        p._id == post._id ? updatedPost : p
+        p._id === post._id ? updatedPost : p
       );
 
       dispatch(setPostData(updatedPosts));
+      setMessage(""); // clear input
     } catch (error) {
       console.log(error);
     }
@@ -82,30 +80,31 @@ const Post = ({ post }) => {
     }
   };
 
-
-  
-
-
   return (
-    <div className="w-[90%]  pb-[19px] flex flex-col gap-[10px] bg-white items-center shadow-2xl shadow-[#00000058] rounded-2xl">
-      <div className="md:w-full md:h-[80px] w-full h-[80px]  flex justify-between items-center px-[10px]">
+    <div className="w-[90%] pb-[19px] flex flex-col gap-[10px] bg-white items-center shadow-2xl shadow-[#00000058] rounded-2xl">
+
+      {/* Top User Section */}
+      <div className="md:w-full md:h-[80px] w-full h-[80px] flex justify-between items-center px-[10px]">
         <div className="flex justify-center items-center md:gap-[19px] gap-[10px]">
           <div
             onClick={() => navigate(`/profile/${post.author.username}`)}
-            className="w-[55px] h-[55px] border-black cursor-pointer overflow-hidden rounded-full"
+            className="w-[55px] h-[55px] cursor-pointer overflow-hidden rounded-full"
           >
             <img
               src={post?.author?.profileImage || DP}
               alt=""
-              className="w-full object-cover"
+              className="w-full h-full object-cover"
             />
           </div>
-          <div className="w-[150px] font-semibold truncate">
+          <div
+            onClick={() => navigate(`/profile/${post.author.username}`)}
+            className="w-[150px] font-semibold truncate cursor-pointer"
+          >
             {post?.author?.username}
           </div>
         </div>
 
-        {userData._id != post.author._id && (
+        {userData._id !== post.author._id && (
           <FollowButton
             tailwind={
               "cursor-pointer px-[10px] w-[60px] md:w-[100px] py-[5px] h-[30px] md:h-[40px] bg-black text-white rounded-2xl text-[15px] md:text-[17px]"
@@ -114,25 +113,31 @@ const Post = ({ post }) => {
           />
         )}
       </div>
+
+      {/* Media */}
       <div className="w-[90%] flex items-center justify-center">
         {post.mediaType === "image" && (
           <div className="w-[90%] flex items-center justify-center">
             <img
               className="w-[80%] rounded-2xl object-cover"
               src={post?.media}
-              alt="SELECTED MEDIA"
+              alt="POST MEDIA"
             />
           </div>
         )}
+
         {post.mediaType === "video" && (
-          <div className="w-[80%]  flex flex-col items-center justify-center">
+          <div className="w-[80%] flex flex-col items-center justify-center">
             <VideoPlayer media={post?.media} />
           </div>
         )}
       </div>
 
+      {/* Like / Comment / Save */}
       <div className="w-full h-[60px] flex justify-between items-center px-[19px] mt-[10px] ">
         <div className="flex justify-center items-center gap-[10px]">
+
+          {/* Like */}
           <div
             className="flex justify-center items-center gap-[5px]"
             onClick={handleLike}
@@ -144,6 +149,8 @@ const Post = ({ post }) => {
             )}
             <span>{post?.likes?.length}</span>
           </div>
+
+          {/* Comment */}
           <div
             className="flex justify-center items-center gap-[5px]"
             onClick={() => setShowComment((current) => !current)}
@@ -152,6 +159,8 @@ const Post = ({ post }) => {
             <span>{post?.comments?.length}</span>
           </div>
         </div>
+
+        {/* Save */}
         <div onClick={handleSave}>
           {userData.saved.includes(post._id) ? (
             <FaBookmark className="w-[25px] h-[25px] cursor-pointer" />
@@ -161,8 +170,7 @@ const Post = ({ post }) => {
         </div>
       </div>
 
-      {/* caption */}
-
+      {/* Caption */}
       {post.caption && (
         <div className="w-full px-[19px] gap-[10px] flex justify-start items-center">
           <h1 className="font-semibold">{post.author.username}</h1>
@@ -170,44 +178,64 @@ const Post = ({ post }) => {
         </div>
       )}
 
+      {/* COMMENTS SECTION */}
       {showComment && (
-        <div className="w-full flex flex-col gap[30px] pb-[19px]">
+        <div className="w-full flex flex-col pb-[19px]">
+          {/* Write Comment */}
           <div className="w-full h-[80px] flex items-center justify-between px-[19px] relative">
-            <div className="w-[50px] h-[50px] border-black cursor-pointer overflow-hidden rounded-full">
+            <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
               <img
                 src={userData?.profileImage || DP}
                 alt=""
                 className="w-full object-cover"
               />
             </div>
+
             <input
-              className="px-[10px] border-b-2 border-b-gray-500 w-[90%] outline-none h-[40px]  "
+              className="px-[10px] border-b-2 border-gray-500 w-[90%] outline-none h-[40px]"
               placeholder="Write comments...."
               onChange={(e) => setMessage(e.target.value)}
               value={message}
             />
+
             <button
               onClick={handleComment}
               className="cursor-pointer absolute right-[19px]"
             >
-              <IoMdSend className=" w-[25px] h-[25px]" />
+              <IoMdSend className="w-[25px] h-[25px]" />
             </button>
           </div>
+
+          {/* All Comments */}
           <div className="w-full max-h-[300px] overflow-auto">
             {post.comments.map((comm, index) => (
               <div
                 key={index}
-                className="w-full px-[19px] mx-[39px] m py-[19px] flex items-center gap-[19px] border-b-2 border-b-gray-200 "
+                className="w-full px-[19px] py-[19px] flex items-start gap-[12px] border-b border-gray-200"
               >
-                <div className="w-[40px] h-[40px] border-black cursor-pointer overflow-hidden rounded-full">
+                {/* Comment User Image */}
+                <div
+                  onClick={() => navigate(`/profile/${comm.author.username}`)}
+                  className="w-[40px] h-[40px] rounded-full overflow-hidden cursor-pointer"
+                >
                   <img
                     src={comm?.author?.profileImage || DP}
                     alt=""
-                    className="w-full object-cover"
+                    className="w-full h-full object-cover"
                   />
                 </div>
-                <div></div>
-                <div>{comm.message}</div>
+
+                {/* Username + Comment */}
+                <div className="flex flex-col">
+                  <span
+                    className="font-semibold cursor-pointer"
+                    onClick={() => navigate(`/profile/${comm.author.username}`)}
+                  >
+                    {comm?.author?.username}
+                  </span>
+
+                  <span>{comm.message}</span>
+                </div>
               </div>
             ))}
           </div>
