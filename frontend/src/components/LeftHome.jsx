@@ -14,9 +14,10 @@ const LeftHome = () => {
   const { userData, suggestedUsers } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
+
   const handleLogout = async () => {
     try {
-      const result = axios.get(`${serverUrl}/api/auth/signout`, {
+      await axios.get(`${serverUrl}/api/auth/signout`, {
         withCredentials: true,
       });
       dispatch(setUserData(null));
@@ -24,22 +25,25 @@ const LeftHome = () => {
       console.log(error);
     }
   };
+
   return (
-    <div className="w-[25%] hidden lg:block min-h-[100vh] bg-[black] border-r-2 border-gray-900">
+    <div className="w-[25%] hidden lg:flex flex-col min-h-[100vh] bg-black border-r-2 border-gray-900">
+
+      {/* TOP HEADER */}
       <div className="w-full h-[100px] flex items-center justify-between p-[19px]">
         <img
           src={logo}
-          alt=""
+          alt="logo"
           className="w-[80px] cursor-pointer"
           onClick={() => navigate(`/`)}
         />
-        <div>
-          <FaRegHeart className="text-white w-[25px] h-[25px] cursor-pointer" />
-        </div>
+        <FaRegHeart className="text-white w-[25px] h-[25px] cursor-pointer" />
       </div>
-      <div className="flex border-b-2 border-b-gray-900 py-[10px] items-center w-full justify-between gap-[10px] px-[19px]">
+
+      {/* USER INFO */}
+      <div className="flex border-b-2 border-b-gray-900 py-[10px] items-center justify-between gap-[10px] px-[19px]">
         <div className="flex items-center gap-[10px]">
-          <div className="w-[70px] h-[70px] border-black cursor-pointer overflow-hidden rounded-full">
+          <div className="w-[70px] h-[70px] cursor-pointer overflow-hidden rounded-full">
             <img
               src={userData.profileImage || DP}
               alt=""
@@ -62,10 +66,16 @@ const LeftHome = () => {
           Logout
         </div>
       </div>
-      <div className="w-full flex flex-col gap-[19px] p-[19px]">
-        <h1 className="text-white text-[19px]">Suggested Users</h1>
-        {suggestedUsers &&
-          suggestedUsers?.map((user, index) => <OtherUser key={index} user={user} />)}
+
+      {/* SCROLLABLE SUGGESTED USERS */}
+      <div className="flex-1 overflow-y-auto p-[19px]">
+        <h1 className="text-white text-[19px] mb-4">Suggested Users</h1>
+
+        <div className="flex flex-col gap-[19px]">
+          {suggestedUsers?.map((user, index) => (
+            <OtherUser key={index} user={user} />
+          ))}
+        </div>
       </div>
     </div>
   );
