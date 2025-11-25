@@ -14,7 +14,7 @@ import MediaUpload from "./pages/MediaUpload.jsx";
 import getAllPost from "./hooks/getAllPost.js";
 import Loops from "./pages/Loops.jsx";
 import getAllLoops from "./hooks/getAllLoops.js";
-import Story from "./pages/story.jsx";
+import Story from "./pages/Story.jsx";
 import getAllStories from "./hooks/getAllStories.js";
 import Messages from "./pages/Messages.jsx";
 import MessagePage from "./pages/MessagePage.jsx";
