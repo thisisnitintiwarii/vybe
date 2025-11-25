@@ -43,7 +43,7 @@ const Messages = () => {
               navigate("/chatting");
             }}
           >
-            {onlineUsers.includes(user._id) ? (
+            {onlineUsers?.includes(user?._id) ? (
               <OnlineUser user={user} />
             ) : (
               <div className="w-[50px] h-[50px] border-black border-2 cursor-pointer overflow-hidden rounded-full">
