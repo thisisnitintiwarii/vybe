@@ -14,7 +14,6 @@ const LeftHome = () => {
   const { userData, suggestedUsers } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
-
   const handleLogout = async () => {
     try {
       await axios.get(`${serverUrl}/api/auth/signout`, {
@@ -27,13 +26,13 @@ const LeftHome = () => {
   };
 
   return (
-    <div className="w-[25%] hidden lg:flex flex-col min-h-[100vh] bg-black border-r-2 border-gray-900">
+    <div className="w-[25%] hidden lg:flex flex-col min-h-[100vh] bg-[black] border-r-2 border-gray-900">
 
       {/* TOP HEADER */}
-      <div className="w-full h-[100px] flex items-center justify-between p-[19px]">
+      <div className="w-full h-[100px] flex items-center justify-between p-[19px] shrink-0">
         <img
           src={logo}
-          alt="logo"
+          alt=""
           className="w-[80px] cursor-pointer"
           onClick={() => navigate(`/`)}
         />
@@ -41,7 +40,7 @@ const LeftHome = () => {
       </div>
 
       {/* USER INFO */}
-      <div className="flex border-b-2 border-b-gray-900 py-[10px] items-center justify-between gap-[10px] px-[19px]">
+      <div className="flex border-b-2 border-b-gray-900 py-[10px] items-center justify-between gap-[10px] px-[19px] shrink-0">
         <div className="flex items-center gap-[10px]">
           <div className="w-[70px] h-[70px] cursor-pointer overflow-hidden rounded-full">
             <img
@@ -69,7 +68,7 @@ const LeftHome = () => {
 
       {/* SCROLLABLE SUGGESTED USERS */}
       <div className="flex-1 overflow-y-auto p-[19px]">
-        <h1 className="text-white text-[19px] mb-4">Suggested Users</h1>
+        <h1 className="text-white text-[19px] mb-[10px]">Suggested Users</h1>
 
         <div className="flex flex-col gap-[19px]">
           {suggestedUsers?.map((user, index) => (
@@ -77,6 +76,7 @@ const LeftHome = () => {
           ))}
         </div>
       </div>
+
     </div>
   );
 };
