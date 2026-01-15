@@ -6,10 +6,9 @@ import bcrypt from "bcryptjs";
 
 const cookieOptions = {
   httpOnly: true,
+  maxAge: 10 * 365 * 24 * 60 * 60 * 10,
   secure: true,
-  sameSite: "none",
-  path: "/",
-  maxAge: 15 * 60 * 70 *  1000,
+  sameSite: "None",
 };
 
 export const signUp = async (req, res) => {
