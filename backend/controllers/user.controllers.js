@@ -22,8 +22,11 @@ export const getCurrentuser = async (req, res) => {
 
 export const suggestedUsers = async (req, res) => {
   try {
-    const user = await User.find({
-      _id: { $ne: req.userId },
+    const users = await User.find({
+      _id: {
+        $ne: req.userId,          // exclude self
+        $nin: currentUser.following, // exclude already followed users
+      },
     }).select("-password");
     return res.status(200).json(user);
   } catch (error) {
