@@ -4,6 +4,14 @@ import genToken from "../config/token.js";
 import cookieParser from "cookie-parser";
 import bcrypt from "bcryptjs";
 
+const cookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none",
+  path: "/",
+  maxAge: 15 * 60 * 70 *  1000,
+};
+
 export const signUp = async (req, res) => {
   try {
     const { name, username, email, password } = req.body;
@@ -49,12 +57,7 @@ export const signUp = async (req, res) => {
       });
     }
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      maxAge: 10 * 365 * 24 * 60 * 60 * 1000,
-      secure: true,
-      sameSite: "None",
-    });
+res.cookie("token", token, cookieOptions);
 
     return res.status(200).json(user);
   } catch (error) {
@@ -92,12 +95,7 @@ export const signIn = async (req, res) => {
       });
     }
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      maxAge: 10 * 365 * 24 * 60 * 60 * 10,
-      secure: true,
-      sameSite: "None",
-    });
+    res.cookie("token", token,cookieOptions);
 
     return res.status(200).json(user);
   } catch (error) {
@@ -109,7 +107,7 @@ export const signIn = async (req, res) => {
 
 export const signOut = async (req, res) => {
   try {
-    res.clearCookie("token");
+    res.clearCookie("token",cookieOptions);
     return res.status(200).json({
       message: "SignOut successFully",
     });
