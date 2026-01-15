@@ -97,26 +97,26 @@ const Search = () => {
       <div className="w-full flex flex-col items-center gap-3 pb-8">
         {Array.isArray(searchData) && searchData.length > 0 ? (
           searchData.map((user) => {
-            const key = user._id ?? user.userName ?? Math.random();
+            const key = user._id ?? user.username ?? Math.random();
 
             return (
               <div
                 key={key}
                 className="w-[90vw] cursor-pointer max-w-[700px] h-[80px] rounded-full bg-white flex items-center gap-[20px] px-[20px]"
-                onClick={() => navigate(`/profile/${user.userName}`)}
+                onClick={() => navigate(`/profile/${user.username}`)}
               >
                 {/* Profile image */}
                 <div className="w-[40px] h-[40px] border-2 border-black rounded-full overflow-hidden">
                   <img
                     src={user.profileImage || DEFAULT_DP}
-                    alt={`${user.userName}'s avatar`}
+                    alt={`${user.username}'s avatar`}
                     className="w-full h-full object-cover"
                   />
                 </div>
 
                 {/* Name and username */}
                 <div className="text-black text-[18px] font-semibold">
-                  <div>{user.userName}</div>
+                  <div>{user.username}</div>
                   <div className="text-[14px] text-gray-400">{user.name}</div>
                 </div>
               </div>
